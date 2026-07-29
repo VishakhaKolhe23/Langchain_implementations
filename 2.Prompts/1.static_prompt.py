@@ -1,5 +1,13 @@
-from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.prompts import PromptTemplate
 
-prompt = ChatPromptTemplate.from_template(
-    "Explain Generative AI."
+static_prompt = PromptTemplate(
+
+input_variables=[],
+
+template="Write a short fun fact about AI"
+
 )
+
+prompt_text = static_prompt.format()
+
+print(prompt_text)

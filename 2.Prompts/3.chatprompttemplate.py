@@ -1,41 +1,23 @@
-from langchain_ollama import ChatOllama
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.messages import HumanMessage, AIMessage
+#roles
+#system  user  ai 
+from langchain_core.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
 
-# Create model
-model = ChatOllama(model="gpt-oss:120b-cloud")
-
-# Store conversation history
-chat_history = []
-
-
-chat_prompt_template = ChatPromptTemplate.from_messages([
-    ("system", "You are a helpful assistant"),
-    MessagesPlaceholder(variable_name="chat_history"),
-    ("human", "{input}")
+chat_prompt = ChatPromptTemplate.from_messages([
+    SystemMessagePromptTemplate.from_template("You are a helpful assistant that provides information about {subject}."),
+    HumanMessagePromptTemplate.from_template("Can you tell me something interesting about {subject}?")
 ])
 
-# Console chatbot loop
-while True:
-    user_input = input("Enter prompt (type 'quit' to exit): ")
+prompt = chat_prompt.format_messages(subject="quantum computing")
+print(prompt)
 
-    if user_input.lower() == "quit":
-        break
 
-    # Add user message to history
-    chat_history.append(HumanMessage(content=user_input))
 
-    # Create prompt with history
-    prompt = chat_prompt_template.invoke({
-        "chat_history": chat_history,
-        "input": user_input
-    })
 
-    # Get response
-    response = model.invoke(prompt)
 
-    # Print response
-    print("Bot:", response.content)
 
-    # Addding bot response to history
-    chat_history.append(AIMessage(content=response.content))
+
+
+
+
+
+
